@@ -13,4 +13,5 @@ const multTable = (n, i) => {
 };
 
 fs.writeFileSync('output.html', `<table>${multTable(input, 1)}</table>`);
+fs.writeFileSync('ascii.txt', `<table>${multTable(input, 1)}</table>`);
 // console.log(multTable(input, 1));
