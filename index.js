@@ -44,10 +44,18 @@ const end = `
 </html>`;
 
 try {
+  const startTime = performance.now();
   fs.writeFileSync('output.html', `${start}\n    <table  class="table table-dark table-sm">\n${multTable(input, 1)}    </table>${end}`);
   console.log(chalk.green('output.html created succesfully at ./output.html'));
   fs.writeFileSync('output.txt', ` ${multTableAscii(input, 1)}`);
   console.log(chalk.green('output.txt created succesfully at ./output.txt'));
+
+  const endTime = performance.now();
+  const runTime = endTime - startTime;
+
+  // Log the total runtime to the console
+  // eslint-disable-next-line no-console
+  console.log(`Runtime: ${runTime}`);
 } catch (error) {
   console.log(chalk.red('Failed to create files.'));
   console.log(error);
