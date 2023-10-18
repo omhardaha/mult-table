@@ -1,4 +1,5 @@
 import fs from 'fs';
+import chalk from 'chalk';
 
 const input = 23;
 
@@ -12,6 +13,11 @@ const multTable = (n, i) => {
   return `</tr>${generateRaw(n, 1, i)}</tr>${multTable(n, i + 1)}`;
 };
 
-fs.writeFileSync('output.html', `<table>${multTable(input, 1)}</table>`);
-fs.writeFileSync('ascii.txt', `<table>${multTable(input, 1)}</table>`);
+try {
+  fs.writeFileSync('output.html', `<table>${multTable(input, 1)}</table>`);
+  console.log(chalk.green('output.html created succesfully at ./outpur.html'));
+} catch (error) {
+  console.log(chalk.red('Failed to create file.'));
+}
+// fs.writeFileSync('ascii.txt', `<table>${multTable(input, 1)}</table>`);
 // console.log(multTable(input, 1));
