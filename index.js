@@ -1,13 +1,16 @@
-// import fs from 'fs';
+import fs from 'fs';
 
-function printTable(n, i, arr) {
-  if (i === 11) { return; }
-  console.log(n * i);
-  arr.push(n * i);
-  i += 1;
-  printTable(n, i, arr);
-}
+const input = 23;
 
-const arr = [];
-printTable(4, 1, arr);
-console.log(arr);
+const generateRaw = (num, i, mul) => {
+  if (i > num) return '';
+  return `<td>${i * mul}</td>${generateRaw(num, i + 1, mul)}`;
+};
+
+const multTable = (n, i) => {
+  if (i > 10) return '';
+  return `</tr>${generateRaw(n, 1, i)}</tr>${multTable(n, i + 1)}`;
+};
+
+fs.writeFileSync('output.html', `<table>${multTable(input, 1)}</table>`);
+// console.log(multTable(input, 1));
