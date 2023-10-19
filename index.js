@@ -63,9 +63,9 @@ const endHTML = `
 try {
     const startTime = performance.now();
     fs.writeFileSync('output.html', `${startHTML}\n    <table  class="table table-dark table-sm  text-center ">\n${multTable(input, 1)}    </table>${endHTML}`);
-    console.log(chalk.green('output.html created succesfully at ./output.html'));
+    console.log(('File created succesfully at ./output.html'));
     fs.writeFileSync('output.txt', ` ${multTableAscii(input, 1)}`);
-    console.log(chalk.green('output.txt created succesfully at ./output.txt'));
+    console.log(('File created succesfully at ./output.txt'));
 
     const endTime = performance.now();
     const runTime = endTime - startTime;
