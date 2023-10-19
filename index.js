@@ -4,25 +4,34 @@ import chalk from 'chalk';
 const input = 20;
 
 const generateRaw = (num, i, mul) => {
-  if (i > num) return '';
-  return `        <td scope="row">${i * mul}</td>\n${generateRaw(num, i + 1, mul)}`;
+    if (i > num) return '';
+    return `        <td scope="row">${i * mul}</td>\n${generateRaw(num, i + 1, mul)}`;
 };
 
 const multTable = (n, i) => {
-  if (i > 10) return '';
-  return `       <tr class="table-Primary">\n${generateRaw(n, 1, i)}       </tr>\n${multTable(n, i + 1)}`;
+    if (i > 10) return '';
+    return `       <tr class="table-Primary">\n${generateRaw(n, 1, i)}       </tr>\n${multTable(n, i + 1)}`;
 };
 
+const digitMargin = (num) => {
+    let s = String(num);
+    while (s.length < 4) {
+        s += ' ';
+    }
+    return `${s}|`;
+};
 const generateRawAscii = (num, i, mul) => {
-  if (i > num) return '';
-  return ` | ${i * mul} ${generateRawAscii(num, i + 1, mul)} |`;
+    if (i > num) return '';
+    digitMargin(i * mul);
+    return ` ${digitMargin(i * mul)} ${generateRawAscii(num, i + 1, mul)}`;
 };
 
 const multTableAscii = (n, i) => {
-  if (i > 10) return '';
-  return `${generateRawAscii(n, 1, i)}  \n ${multTableAscii(n, i + 1)}`;
+    if (i > 10) return '';
+    return `${generateRawAscii(n, 1, i)}  \n ${multTableAscii(n, i + 1)}`;
 };
-const start = `<!doctype html>
+
+const startHTML = `<!doctype html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -36,7 +45,7 @@ const start = `<!doctype html>
   </head>
   <body>`;
 
-const end = `
+const endHTML = `
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -44,21 +53,16 @@ const end = `
 </html>`;
 
 try {
-  const startTime = performance.now();
-  fs.writeFileSync('output.html', `${start}\n    <table  class="table table-dark table-sm">\n${multTable(input, 1)}    </table>${end}`);
-  console.log(chalk.green('output.html created succesfully at ./output.html'));
-  fs.writeFileSync('output.txt', ` ${multTableAscii(input, 1)}`);
-  console.log(chalk.green('output.txt created succesfully at ./output.txt'));
+    const startTime = performance.now();
+    fs.writeFileSync('output.html', `${startHTML}\n    <table  class="table table-dark table-sm  text-center ">\n${multTable(input, 1)}    </table>${endHTML}`);
+    console.log(chalk.green('output.html created succesfully at ./output.html'));
+    fs.writeFileSync('output.txt', ` ${multTableAscii(input, 1)}`);
+    console.log(chalk.green('output.txt created succesfully at ./output.txt'));
 
-  const endTime = performance.now();
-  const runTime = endTime - startTime;
-
-  // Log the total runtime to the console
-  // eslint-disable-next-line no-console
-  console.log(`Runtime: ${runTime}`);
+    const endTime = performance.now();
+    const runTime = endTime - startTime;
+    console.log(`Runtime: ${runTime}`);
 } catch (error) {
-  console.log(chalk.red('Failed to create files.'));
-  console.log(error);
+    console.log(chalk.red('Failed to create files.'));
+    console.log(error);
 }
-// fs.writeFileSync('ascii.txt', `<table>${multTable(input, 1)}</table>`);
-// console.log(multTable(input, 1));
