@@ -4,16 +4,24 @@ import chalk from 'chalk';
 const input = 20;
 
 const generateRaw = (num, i, mul) => {
-    if (i > num) return '';
-    return `        <td scope="row">${i * mul}</td>\n${generateRaw(num, i + 1, mul)}`;
+    const arr = [];
+    while (i <= num) {
+        arr.push(`        <td scope="row">${i * mul}</td>\n`);
+        i += 1;
+    }
+    return arr.join('');
 };
 
 const multTable = (n, i) => {
-    if (i > 10) return '';
-    return `       <tr class="table-Primary">\n${generateRaw(n, 1, i)}       </tr>\n${multTable(n, i + 1)}`;
+    const arr = [];
+    while (i < 11) {
+        arr.push(`       <tr class="table-Primary">\n${generateRaw(n, 1, i)}       </tr>\n`);
+        i += 1;
+    }
+    return arr.join('');
 };
 
-const digitMargin = (num) => {
+const spaceDigit = (num) => {
     let s = String(num);
     while (s.length < 4) {
         s += ' ';
@@ -21,34 +29,34 @@ const digitMargin = (num) => {
     return `${s}|`;
 };
 const generateRawAscii = (num, i, mul) => {
-    if (i > num) return '';
-    digitMargin(i * mul);
-    return ` ${digitMargin(i * mul)} ${generateRawAscii(num, i + 1, mul)}`;
+    const arr = [];
+    while (i <= num) {
+        arr.push(`${spaceDigit(i * mul)} `);
+        i += 1;
+    }
+    return arr.join('');
 };
 
 const multTableAscii = (n, i) => {
-    if (i > 10) return '';
-    return `${generateRawAscii(n, 1, i)}  \n ${multTableAscii(n, i + 1)}`;
+    const arr = [];
+    while (i < 11) {
+        arr.push(`${generateRawAscii(n, 1, i)}  \n `);
+        i += 1;
+    }
+    return arr.join('');
 };
 
 const startHTML = `<!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
+    <title>Multiplication Table</title>
   </head>
   <body>`;
 
 const endHTML = `
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>`;
 
